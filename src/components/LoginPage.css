@@ -1,0 +1,182 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+.login-page-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-family: 'Poppins', sans-serif;
+  position: relative;
+  overflow: hidden; /* To contain the blurred pseudo-element */
+}
+
+.login-page-container::before {
+  content: '';
+  position: absolute;
+  top: -10px; /* Extend to avoid sharp edges from blur */
+  left: -10px;
+  right: -10px;
+  bottom: -10px;
+  background: url('/connexion.jpg') no-repeat center center;
+  background-size: cover;
+  filter: blur(5px);
+  -webkit-filter: blur(5px);
+  z-index: -1;
+}
+
+.login-form-container {
+  position: relative;
+  background-color: rgba(45, 52, 54, 0.85);
+  padding: 15px 25px; /* Final padding */
+  border-radius: 30px; /* Softer corners */
+  width: 100%;
+  max-width: 320px; /* Final attempt at width */
+  color: white;
+  text-align: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.login-header {
+  margin-bottom: 10px; /* Final header margin */
+}
+
+.login-logo-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px; /* Final logo margin */
+  gap: 10px; /* Space between icon and text */
+}
+
+.login-logo-icon {
+  width: 35px; /* More compact logo */
+  height: auto;
+  margin-right: 10px;
+}
+
+.login-logo-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  color: #ffffff;
+  text-align: left;
+}
+
+.logo-text-main {
+  font-size: 1em;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  line-height: 1.2;
+}
+
+.logo-text-sub {
+  font-size: 0.7em;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: #bdc3c7; /* Lighter color for sub-text */
+}
+
+.login-header h2 {
+  font-size: 1.2em; /* Final title size */
+  font-weight: 600;
+  margin: 0;
+}
+
+.input-group {
+  margin-bottom: 4px; /* Pixel-perfect margin */
+  text-align: left;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 2px;
+  font-size: 0.75em; /* Pixel-perfect label */
+  color: #bdc3c7;
+}
+
+.input-with-icon {
+  position: relative;
+}
+
+.input-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #95a5a6;
+  font-size: 1em; /* Smaller icon */
+}
+
+.input-group input {
+  width: 100%;
+  padding: 12px 8px 12px 35px; /* Final height adjustment */
+  border: 1px solid #e0e0e0; /* Lighter border */
+  background-color: #f4f4f4; /* Light background */
+  border-radius: 12px; /* Matching mockup corners */
+  color: #333; /* Dark text */
+  font-size: 1em; /* Final font size adjustment */
+  box-sizing: border-box;
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+.input-group input:focus {
+  outline: none;
+  background-color: #ffffff;
+  border-color: #c8102e;
+}
+
+.options-group {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.8em;
+  margin-bottom: 10px; /* Pixel-perfect options margin */
+}
+
+.remember-me {
+  display: flex;
+  align-items: center;
+}
+
+.remember-me input {
+  margin-right: 8px;
+}
+
+.forgot-password {
+  color: #bdc3c7;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.forgot-password:hover {
+  color: #c8102e;
+}
+
+.login-button {
+  width: 100%;
+  padding: 13px; /* Final height adjustment */
+  background-color: #c8102e;
+  border: none;
+  border-radius: 12px; /* Matching mockup corners */
+  color: white;
+  font-size: 1em; /* Final font size adjustment */
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 5px; /* Tighter button margin */
+}
+
+.login-button:hover {
+  background-color: #e74c3c;
+}
+
+.signup-link {
+  margin-top: 10px; /* Pixel-perfect footer margin */
+  font-size: 0.8em;
+}
+
+.signup-link a {
+  color: #c8102e;
+  font-weight: 600;
+  text-decoration: none;
+}

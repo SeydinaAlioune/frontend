@@ -1,14 +1,49 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import './RegistrationPage.css';
 import { FaUser, FaLock, FaEnvelope } from 'react-icons/fa';
 
 const RegistrationPage = () => {
   const navigate = useNavigate();
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [role, setRole] = useState('client'); // Default role
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+
+  const handleRegister = async (e) => {
+    e.preventDefault();
+    setError('');
+    setSuccess('');
+
+    try {
+      const response = await axios.post('http://127.0.0.1:8000/auth/register', {
+        name,
+        email,
+        password,
+        role
+      });
+
+      setSuccess('Inscription réussie ! Votre compte est en attente de validation par un administrateur.');
+      // Optionnel: rediriger après quelques secondes
+      // setTimeout(() => navigate('/login'), 5000);
+
+    } catch (err) {
+      if (err.response && err.response.data && err.response.data.detail) {
+        setError(err.response.data.detail);
+      } else {
+        setError('Une erreur est survenue lors de l\'inscription.');
+      }
+    }
+  };
 
   return (
     <div className="registration-page-container">
       <div className="registration-form-container">
+        {error && <div className="error-message">{error}</div>}
+        {success && <div className="success-message">{success}</div>}
         <div className="registration-header">
           <div className="registration-logo-container">
             <svg
@@ -29,33 +64,35 @@ const RegistrationPage = () => {
           </div>
           <h2>Créer un compte</h2>
         </div>
-        <form className="registration-form">
+        <form onSubmit={handleRegister} className="registration-form">
           <div className="input-group">
             <label htmlFor="fullName">Nom complet</label>
             <div className="input-with-icon">
               <FaUser className="input-icon" />
-              <input type="text" id="fullName" defaultValue="Seydina Alioune Diao" className="input-active" />
+              <input type="text" placeholder="Nom complet" value={name} onChange={(e) => setName(e.target.value)} required />
             </div>
           </div>
           <div className="input-group">
             <label htmlFor="email">Identifiant / Email</label>
             <div className="input-with-icon">
               <FaEnvelope className="input-icon" />
-              <input type="email" id="email" defaultValue="diaoseydina62@gmail.com" />
+              <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
             </div>
           </div>
           <div className="input-group">
             <label htmlFor="password">Mot de passe</label>
             <div className="input-with-icon">
               <FaLock className="input-icon" />
-              <input type="password" id="password" defaultValue="************" />
+              <input type="password" placeholder="Mot de passe" value={password} onChange={(e) => setPassword(e.target.value)} required />
             </div>
           </div>
           <div className="input-group">
-            <label htmlFor="confirmPassword">Confirmer le mot de passe</label>
+            <label htmlFor="role">Vous êtes</label>
             <div className="input-with-icon">
-              <FaLock className="input-icon" />
-              <input type="password" id="confirmPassword" defaultValue="************" />
+              <select id="role" value={role} onChange={(e) => setRole(e.target.value)} required>
+                <option value="client">Client</option>
+                <option value="agent support">Agent de Support</option>
+              </select>
             </div>
           </div>
           <button type="submit" className="registration-button">Créer le compte</button>

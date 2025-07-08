@@ -1,20 +1,77 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './LoginPage.css';
 import { FaUser, FaLock } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const LoginPage = () => {
   const navigate = useNavigate();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
-  const handleLogin = (e) => {
+  // Helper function to decode JWT
+  const decodeToken = (token) => {
+    try {
+      return JSON.parse(atob(token.split('.')[1]));
+    } catch (e) {
+      console.error('Failed to decode token:', e);
+      return null;
+    }
+  };
+
+  const handleLogin = async (e) => {
     e.preventDefault();
-    // Logique de connexion à implémenter
-    navigate('/dashboard');
+    setError('');
+
+    const params = new URLSearchParams();
+    params.append('username', email);
+    params.append('password', password);
+
+    try {
+      const response = await axios.post('http://127.0.0.1:8000/login', params, {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      });
+
+      const { access_token } = response.data;
+      localStorage.setItem('authToken', access_token);
+
+      const userData = decodeToken(access_token);
+
+      if (userData && userData.role) {
+        switch (userData.role) {
+          case 'admin':
+            navigate('/admin/dashboard');
+            break;
+          case 'agent support':
+            navigate('/agent/dashboard');
+            break;
+          case 'client':
+            navigate('/chat');
+            break;
+          default:
+            navigate('/dashboard'); // Fallback
+            break;
+        }
+      } else {
+        setError('Rôle non trouvé dans le token.');
+      }
+
+    } catch (err) {
+      if (err.response && err.response.data && err.response.data.detail) {
+        setError(err.response.data.detail);
+      } else {
+        setError('Une erreur est survenue. Veuillez réessayer.');
+      }
+    }
   };
 
   return (
     <div className="login-page-container">
       <div className="login-form-container">
+        {error && <div className="error-message">{error}</div>}
         <div className="login-header">
           <div className="login-logo-container">
             <svg
@@ -40,14 +97,14 @@ const LoginPage = () => {
             <label htmlFor="email">Identifiant / Email</label>
             <div className="input-with-icon">
               <FaUser className="input-icon" />
-              <input type="email" id="email" defaultValue="diaoseydina62@gmail.com" />
+              <input type="email" placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} required />
             </div>
           </div>
           <div className="input-group">
             <label htmlFor="password">Mot de passe</label>
             <div className="input-with-icon">
               <FaLock className="input-icon" />
-              <input type="password" id="password" defaultValue="************" />
+              <input type="password" placeholder="Mot de passe" value={password} onChange={(e) => setPassword(e.target.value)} required />
             </div>
           </div>
           <div className="options-group">

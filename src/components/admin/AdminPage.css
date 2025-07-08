@@ -1,0 +1,100 @@
+.admin-page-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #0D1B2A;
+    padding: 40px 60px;
+    color: #FFFFFF;
+    font-family: 'Roboto', sans-serif;
+    align-items: center;
+}
+
+.admin-page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+    width: 100%;
+    max-width: 900px;
+}
+
+.admin-page-header h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    text-align: center;
+    flex-grow: 1;
+}
+
+.back-button {
+    background: #1B263B;
+    border: 1px solid #4A5568;
+    color: #FFFFFF;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.back-button:hover {
+    background: #2a3447;
+}
+
+.admin-content-panel {
+    background-color: #1B263B;
+    border-radius: 8px;
+    padding: 40px;
+    width: 100%;
+    max-width: 900px;
+}
+
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-group label {
+    display: block;
+    font-size: 14px;
+    color: #A0AEC0;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 12px;
+    background-color: #0D1B2A;
+    border: 1px solid #4A5568;
+    border-radius: 6px;
+    color: #FFFFFF;
+    font-size: 16px;
+}
+
+.form-actions {
+    margin-top: 30px;
+    text-align: right;
+}
+
+.save-btn {
+    background-color: #3182CE;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 25px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.2s;
+}
+
+.save-btn:hover {
+    background-color: #2B6CB0;
+}

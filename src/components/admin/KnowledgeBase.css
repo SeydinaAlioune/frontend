@@ -1,0 +1,70 @@
+.upload-section {
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.upload-section h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.upload-section p {
+    color: #A0AEC0;
+    margin-bottom: 20px;
+}
+
+.upload-box {
+    border: 2px dashed #4A5568;
+    border-radius: 8px;
+    padding: 40px;
+    cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    color: #A0AEC0;
+}
+
+.upload-box:hover {
+    background-color: #2a3447;
+    border-color: #3182CE;
+}
+
+.upload-box svg {
+    font-size: 40px;
+    color: #3182CE;
+}
+
+.documents-list h3 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 20px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #2a3447;
+    padding-bottom: 10px;
+}
+
+.documents-list ul {
+    list-style: none;
+    padding: 0;
+}
+
+.documents-list li {
+    background-color: #0D1B2A;
+    padding: 15px;
+    border-radius: 6px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 16px;
+}
+
+.documents-list li svg {
+    color: #EC644B;
+}
+
+.documents-list li .fa-question-circle {
+    color: #3182CE;
+}

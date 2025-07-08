@@ -1,0 +1,138 @@
+.role-management-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #0D1B2A;
+    padding: 40px 60px;
+    color: #FFFFFF;
+    font-family: 'Roboto', sans-serif;
+}
+
+.admin-page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+    width: 100%;
+}
+
+.admin-page-header h1 {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    flex-grow: 1;
+    text-align: center;
+}
+
+.back-button {
+    background: #1B263B;
+    border: 1px solid #4A5568;
+    color: #FFFFFF;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.back-button:hover {
+    background: #2a3447;
+}
+
+.add-user-btn {
+    background-color: #3182CE; /* Blue from theme */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background-color 0.2s;
+}
+
+.add-user-btn:hover {
+    background-color: #2B6CB0;
+}
+
+.admin-content-panel {
+    background-color: #1B263B;
+    border-radius: 8px;
+    padding: 30px;
+    width: 100%;
+}
+
+.users-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.users-table th, .users-table td {
+    padding: 16px;
+    text-align: left;
+    border-bottom: 1px solid #2a3447;
+}
+
+.users-table th {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    color: #A0AEC0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.users-table td {
+    color: #E2E8F0;
+    font-size: 15px;
+}
+
+.role-badge {
+    padding: 6px 12px;
+    border-radius: 15px;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: capitalize;
+}
+
+.role-admin {
+    background-color: rgba(236, 100, 75, 0.2);
+    color: #EC644B;
+}
+
+.role-agent {
+    background-color: rgba(49, 130, 206, 0.2);
+    color: #3182CE;
+}
+
+.role-client {
+    background-color: rgba(113, 128, 150, 0.2);
+    color: #718096;
+}
+
+.action-cell {
+    display: flex;
+    gap: 15px;
+}
+
+.action-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    color: #A0AEC0;
+    transition: color 0.2s;
+}
+
+.action-btn.edit-btn:hover {
+    color: #3182CE;
+}
+
+.action-btn.delete-btn:hover {
+    color: #E53E3E;
+}

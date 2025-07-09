@@ -54,6 +54,7 @@
   display: flex;
   flex-grow: 1;
   overflow: hidden;
+  position: relative; /* Pour positionner le bouton */
 }
 
 .chat-area {
@@ -174,6 +175,15 @@
   border-left: 1px solid #e9ecef;
   padding: 20px;
   overflow-y: auto;
+  transition: all 0.3s ease-in-out;
+  flex-shrink: 0; /* Empêche le rétrécissement */
+}
+
+.history-sidebar.collapsed {
+  width: 0;
+  padding: 0;
+  overflow: hidden;
+  border-left: none;
 }
 
 .history-sidebar h3 {
@@ -199,6 +209,42 @@
 
 .ticket-card:hover {
     border-color: #c8102e;
+}
+
+/* --- Styles pour le bouton de pliage --- */
+.sidebar-toggle-button {
+  position: absolute;
+  top: 20px;
+  right: 20px; /* Position initiale */
+  background-color: #fff;
+  border: 1px solid #e9ecef;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  transition: right 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.sidebar-toggle-button:hover {
+  background-color: #f1f1f1;
+}
+
+.sidebar-toggle-button.collapsed {
+  right: 20px; /* Reste au même endroit quand c'est plié */
+  transform: translateX(calc(350px - 20px - 32px)); /* Se déplace avec la barre */
+}
+
+.sidebar-toggle-button svg {
+  transition: transform 0.3s ease-in-out;
+}
+
+.history-sidebar.collapsed + .sidebar-toggle-button svg {
+  transform: rotate(180deg);
 }
 
 .ticket-icon {

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { jwtDecode } from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
 import './ChatPage.css';
-import { FaPrint, FaCreditCard, FaChevronDown } from 'react-icons/fa';
+import { FaPrint, FaCreditCard, FaChevronDown, FaChevronRight } from 'react-icons/fa';
 
 const ChatPage = () => {
   const navigate = useNavigate();
@@ -11,6 +11,7 @@ const ChatPage = () => {
   const [inputValue, setInputValue] = useState(''); // Ajout pour la barre de chat
   const [tickets, setTickets] = useState([]);
   const [loadingTickets, setLoadingTickets] = useState(true);
+  const [isSidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -127,7 +128,13 @@ const ChatPage = () => {
           </footer>
         </div>
 
-        <aside className="history-sidebar">
+        <aside className={`history-sidebar ${isSidebarCollapsed ? 'collapsed' : ''}`}>
+          <button 
+            className="sidebar-toggle-button"
+            onClick={() => setSidebarCollapsed(!isSidebarCollapsed)}
+          >
+            <FaChevronRight />
+          </button>
           <h3>Historique des requêtes</h3>
           <div className="ticket-list">
             {loadingTickets ? (

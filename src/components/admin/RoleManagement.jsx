@@ -10,14 +10,14 @@ const RoleManagement = () => {
     const [error, setError] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editingUser, setEditingUser] = useState(null);
-    const [formData, setFormData] = useState({ name: '', email: '', role: 'client', password: '' });
+    const [formData, setFormData] = useState({ name: '', email: '', password: '', role: 'client', status: 'pending' });
 
     const openModal = (user = null) => {
         setEditingUser(user);
         if (user) {
-            setFormData({ name: user.name, email: user.email, role: user.role, password: '' });
+            setFormData({ name: user.name, email: user.email, role: user.role, status: user.status, password: '' });
         } else {
-            setFormData({ name: '', email: '', role: 'client', password: '' });
+            setFormData({ name: '', email: '', role: 'client', status: 'pending', password: '' });
         }
         setIsModalOpen(true);
     };
@@ -132,6 +132,7 @@ const RoleManagement = () => {
                             <th>Nom d'utilisateur</th>
                             <th>Adresse Email</th>
                             <th>Rôle</th>
+                            <th>Statut</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -143,6 +144,11 @@ const RoleManagement = () => {
                                 <td>
                                     <span className={`role-badge role-${user.role.toLowerCase()}`}>
                                         {user.role}
+                                    </span>
+                                </td>
+                                <td>
+                                    <span className={`status-badge status-${user.status}`}>
+                                        {user.status}
                                     </span>
                                 </td>
                                 <td className="action-cell">
@@ -176,11 +182,20 @@ const RoleManagement = () => {
                             )}
                             <div className="form-group">
                                 <label>Rôle</label>
-                                <select name="role" value={formData.role} onChange={handleInputChange}>
-                                    <option value="admin">Administrateur</option>
+                                <select name="role" value={formData.role} onChange={handleInputChange} required>
+                                    <option value="client">Client</option>
                                     <option value="agent_support">Agent Support</option>
                                     <option value="agent_interne">Agent Interne</option>
-                                    <option value="client">Client Externe</option>
+                                    <option value="admin">Admin</option>
+                                </select>
+                            </div>
+                            <div className="form-group">
+                                <label>Statut</label>
+                                <select name="status" value={formData.status} onChange={handleInputChange} required>
+                                    <option value="active">Active</option>
+                                    <option value="pending">Pending</option>
+                                    <option value="blocked">Blocked</option>
+                                    <option value="rejected">Rejected</option>
                                 </select>
                             </div>
                             {error && <p style={{ color: 'red', marginBottom: '10px' }}>{error}</p>}

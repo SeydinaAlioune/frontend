@@ -3,6 +3,7 @@ import './LoginPage.css';
 import { FaUser, FaLock } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { jwtDecode } from 'jwt-decode';
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -30,9 +31,31 @@ const LoginPage = () => {
       const { access_token } = response.data;
       localStorage.setItem('token', access_token);
 
-      // Redirect to a generic dashboard, ProtectedRoute will handle role-based redirection
-            navigate('/admin/dashboard');
-      return;
+      // Decode token to get user role
+      const decodedToken = jwtDecode(access_token);
+      const userRole = decodedToken.role; // Assumes the role is in a 'role' claim
+
+      // Redirect based on role
+      switch (userRole) {
+        case 'admin':
+          navigate('/admin/dashboard');
+          window.location.reload();
+          break;
+        case 'agent_support':
+        case 'agent_interne':
+          navigate('/agent/dashboard');
+          window.location.reload();
+          break;
+        case 'client':
+          navigate('/dashboard');
+          window.location.reload();
+          break;
+        default:
+          // Fallback for unknown roles or if role is not in token
+          setError('Rôle non reconnu. Impossible de vous connecter.');
+          localStorage.removeItem('token'); // Clear invalid token
+          break;
+      }
 
     } catch (err) {
       if (err.response && err.response.data && err.response.data.detail) {

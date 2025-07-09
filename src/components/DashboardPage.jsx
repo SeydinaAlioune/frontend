@@ -1,10 +1,24 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './DashboardPage.css';
 import { FaPrint, FaLock, FaCreditCard, FaBoxOpen, FaArrowRight } from 'react-icons/fa';
+import { jwtDecode } from 'jwt-decode';
 
 const DashboardPage = () => {
   const navigate = useNavigate();
+  const [userName, setUserName] = useState('');
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      try {
+        const decodedToken = jwtDecode(token);
+        setUserName(decodedToken.name || 'Utilisateur');
+      } catch (error) {
+        console.error('Failed to decode token:', error);
+      }
+    }
+  }, []);
 
   const faqs = [
     {
@@ -29,6 +43,7 @@ const DashboardPage = () => {
     },
   ];
 
+
   return (
     <div className="dashboard-container">
       <header className="dashboard-header">
@@ -49,11 +64,11 @@ const DashboardPage = () => {
       <main className="dashboard-main-content">
         <div className="welcome-message">
           <h1>
-            Bonjour, <span className="user-name">Marie Dupont</span> 👋 Comment puis-je vous aider aujourd'hui ?
+            Bonjour, <span className="user-name">{userName}</span> 👋 Comment puis-je vous aider aujourd'hui ?
           </h1>
         </div>
 
-        <div className="action-bar" onClick={() => navigate('/chat')}>
+        <div className="action-bar" onClick={() => navigate('/client/chat')}>
           <input type="text" placeholder="Sur quoi travaillez-vous ?" />
           <FaArrowRight className="action-arrow" />
         </div>

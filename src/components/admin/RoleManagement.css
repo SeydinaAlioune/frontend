@@ -136,3 +136,33 @@
 .action-btn.delete-btn:hover {
     color: #E53E3E;
 }
+
+/* Status Badges */
+.status-badge {
+    padding: 6px 12px;
+    border-radius: 15px;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: capitalize;
+    display: inline-block;
+}
+
+.status-active {
+    background-color: rgba(76, 175, 80, 0.2);
+    color: #4CAF50;
+}
+
+.status-pending {
+    background-color: rgba(255, 152, 0, 0.2);
+    color: #FF9800;
+}
+
+.status-blocked {
+    background-color: rgba(244, 67, 54, 0.2);
+    color: #F44336;
+}
+
+.status-rejected {
+    background-color: rgba(158, 158, 158, 0.2);
+    color: #9E9E9E;
+}

@@ -8,10 +8,12 @@ import ProtectedRoute from './components/ProtectedRoute';
 import LandingPage from './components/LandingPage';
 import LoginPage from './components/LoginPage';
 import RegistrationPage from './components/RegistrationPage';
+import DashboardPage from './components/DashboardPage';
 
 // Agent Components
 import AgentLayout from './components/AgentDashboard';
-import ChatInterface from './components/ChatInterface';
+import ChatPage from './components/ChatPage';
+import ChatInterface from './components/ChatInterface'; // Re-added for agent route
 import AnalyticsDashboard from './components/AnalyticsDashboard';
 
 // Admin Components
@@ -33,7 +35,7 @@ function App() {
 
 
         {/* Protected Agent Routes */}
-        <Route element={<ProtectedRoute allowedRoles={['agent']} />}>
+        <Route element={<ProtectedRoute allowedRoles={['agent_support', 'agent_interne']} />}>
           <Route path="/agent/dashboard" element={<AgentLayout />}>
             <Route index element={<ChatInterface />} />
             <Route path="analytics" element={<AnalyticsDashboard />} />
@@ -49,9 +51,10 @@ function App() {
           <Route path="/admin/dashboard/middleware" element={<MiddlewareConfig />} />
         </Route>
 
-        {/* Protected Client Route */}
+        {/* Protected Client Routes */}
         <Route element={<ProtectedRoute allowedRoles={['client']} />}>
-            <Route path="/chat" element={<ChatInterface />} />
+          <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/client/chat" element={<ChatPage />} />
         </Route>
 
         {/* Fallback Redirect */}

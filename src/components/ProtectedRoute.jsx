@@ -6,18 +6,18 @@ const decodeToken = (token) => {
         const payload = JSON.parse(atob(token.split('.')[1]));
         // Check if the token is expired
         if (payload.exp * 1000 < Date.now()) {
-            localStorage.removeItem('authToken');
+            localStorage.removeItem('token');
             return null;
         }
         return payload;
     } catch (e) {
-        localStorage.removeItem('authToken');
+        localStorage.removeItem('token');
         return null;
     }
 };
 
 const ProtectedRoute = ({ allowedRoles }) => {
-    const token = localStorage.getItem('authToken');
+    const token = localStorage.getItem('token');
 
     if (!token) {
         // User not authenticated
@@ -31,18 +31,14 @@ const ProtectedRoute = ({ allowedRoles }) => {
         return <Navigate to="/login" replace />;
     }
 
-    if (allowedRoles && !allowedRoles.includes(userData.role)) {
-        // User does not have the required role
-        // Redirect them to a default page based on their actual role
-        switch (userData.role) {
-            case 'admin':
-                return <Navigate to="/admin/dashboard" replace />;
-            case 'agent support':
-                return <Navigate to="/agent/dashboard" replace />;
-            default:
-                return <Navigate to="/login" replace />;
+    if (allowedRoles) {
+        // 'sub' is often used for the user's role or primary identifier in JWTs.
+        if (!userData.role || !allowedRoles.includes(userData.role)) {
+            // If roles are required and the user doesn't have the right one, redirect to login.
+            return <Navigate to="/login" replace />;
         }
     }
+
 
     // User is authenticated and has the correct role, render the requested page
     return <Outlet />;

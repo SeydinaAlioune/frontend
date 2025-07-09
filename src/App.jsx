@@ -21,6 +21,7 @@ import GlpiConfig from './components/admin/GlpiConfig';
 import KnowledgeBase from './components/admin/KnowledgeBase';
 import MiddlewareConfig from './components/admin/MiddlewareConfig';
 
+
 function App() {
   return (
     <Router>
@@ -30,8 +31,9 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegistrationPage />} />
 
+
         {/* Protected Agent Routes */}
-        <Route element={<ProtectedRoute allowedRoles={['agent support']} />}>
+        <Route element={<ProtectedRoute allowedRoles={['agent']} />}>
           <Route path="/agent/dashboard" element={<AgentLayout />}>
             <Route index element={<ChatInterface />} />
             <Route path="analytics" element={<AnalyticsDashboard />} />

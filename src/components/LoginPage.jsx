@@ -10,15 +10,7 @@ const LoginPage = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
-  // Helper function to decode JWT
-  const decodeToken = (token) => {
-    try {
-      return JSON.parse(atob(token.split('.')[1]));
-    } catch (e) {
-      console.error('Failed to decode token:', e);
-      return null;
-    }
-  };
+
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -29,35 +21,18 @@ const LoginPage = () => {
     params.append('password', password);
 
     try {
-      const response = await axios.post('http://127.0.0.1:8000/login', params, {
+      const response = await axios.post('http://localhost:8000/auth/login', params, {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
         }
       });
 
       const { access_token } = response.data;
-      localStorage.setItem('authToken', access_token);
+      localStorage.setItem('token', access_token);
 
-      const userData = decodeToken(access_token);
-
-      if (userData && userData.role) {
-        switch (userData.role) {
-          case 'admin':
+      // Redirect to a generic dashboard, ProtectedRoute will handle role-based redirection
             navigate('/admin/dashboard');
-            break;
-          case 'agent support':
-            navigate('/agent/dashboard');
-            break;
-          case 'client':
-            navigate('/chat');
-            break;
-          default:
-            navigate('/dashboard'); // Fallback
-            break;
-        }
-      } else {
-        setError('Rôle non trouvé dans le token.');
-      }
+      return;
 
     } catch (err) {
       if (err.response && err.response.data && err.response.data.detail) {

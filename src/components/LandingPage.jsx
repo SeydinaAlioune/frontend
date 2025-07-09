@@ -5,8 +5,10 @@ import './LandingPage.css';
 const LandingPage = () => {
   const navigate = useNavigate();
 
+  
+
   const handleStartDiscussion = () => {
-    navigate('/connexion');
+    navigate('/login');
   };
   return (
     <div className="landing-container">

@@ -16,7 +16,7 @@ const ChatPage = () => {
   const [activeTicketId, setActiveTicketId] = useState(null); // Pour savoir quel ticket est ouvert
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('authToken');
     if (token) {
       try {
         const decodedToken = jwtDecode(token);
@@ -28,7 +28,7 @@ const ChatPage = () => {
     }
 
     const fetchTickets = async () => {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem('authToken');
       if (!token) {
         setLoadingTickets(false);
         return;
@@ -55,7 +55,7 @@ const ChatPage = () => {
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
+    localStorage.removeItem('authToken');
     navigate('/login');
   };
 
@@ -66,7 +66,7 @@ const ChatPage = () => {
     setMessages([{ sender: 'bot', text: 'Chargement de la conversation...' }]);
 
     try {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem('authToken');
       const response = await fetch(`http://localhost:8000/api/glpi/tickets/${ticket.id}/followups`, {
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -108,14 +108,14 @@ const ChatPage = () => {
     setInputValue(''); // Vide l'input après envoi
 
     try {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem('authToken');
       const response = await fetch('http://localhost:8000/api/chatbot/ask', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`,
         },
-        body: JSON.stringify(question),
+        body: JSON.stringify({ question: question, ticket_id: activeTicketId }),
       });
 
       if (!response.ok) {
@@ -123,8 +123,15 @@ const ChatPage = () => {
       }
 
       const data = await response.json();
-      const botMessage = { sender: 'bot', text: data.message || data.faq_answer || 'Désolé, je n\'ai pas compris.' };
-      setMessages(prevMessages => [...prevMessages, botMessage]);
+      // Si un suivi a été ajouté, on rafraîchit la conversation pour voir le nouveau message
+      if (data.type === 'followup_added') {
+        const botMessage = { sender: 'bot', text: data.message };
+        setMessages(prevMessages => [...prevMessages, botMessage]);
+        // Optionnel : on pourrait ici re-déclencher `handleTicketClick` pour rafraîchir toute la conversation
+      } else {
+        const botMessage = { sender: 'bot', text: data.message || data.faq_answer || 'Désolé, je n\'ai pas compris.' };
+        setMessages(prevMessages => [...prevMessages, botMessage]);
+      }
 
     } catch (error) {
       console.error("Erreur lors de l'appel au chatbot:", error);

@@ -5,14 +5,19 @@ import { FaLightbulb, FaSyncAlt, FaChartBar, FaTicketAlt, FaClock, FaCheckCircle
 const AnalyticsDashboard = () => {
     const [stats, setStats] = useState({ total_tickets: 0, avg_response_time_hours: 0, resolution_rate_percent: 0 });
     const [recurringIssues, setRecurringIssues] = useState([]);
-    const [summary, setSummary] = useState('');
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+
+    // State for summary feature
+    const [ticketId, setTicketId] = useState('');
+    const [summary, setSummary] = useState('');
+    const [isLoadingSummary, setIsLoadingSummary] = useState(false);
+    const [summaryError, setSummaryError] = useState('');
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const token = localStorage.getItem('token'); // Récupérer le token
+                const token = localStorage.getItem('authToken'); // Récupérer le token
                 if (!token) {
                     throw new Error('Token non trouvé. Veuillez vous connecter.');
                 }
@@ -21,23 +26,19 @@ const AnalyticsDashboard = () => {
                 const apiBaseUrl = 'http://localhost:8000/api/analytics';
 
                 // Utiliser Promise.all pour lancer les requêtes en parallèle
-                const [statsRes, issuesRes, summaryRes] = await Promise.all([
+                const [statsRes, issuesRes] = await Promise.all([
                     fetch(`${apiBaseUrl}/stats`, { headers }),
-                    fetch(`${apiBaseUrl}/recurring-issues`, { headers }),
-                    fetch(`${apiBaseUrl}/ticket-summary/1`, { headers }) // Ticket ID 1 pour l'exemple
+                    fetch(`${apiBaseUrl}/recurring-issues`, { headers })
                 ]);
 
-                if (!statsRes.ok || !issuesRes.ok || !summaryRes.ok) {
+                if (!statsRes.ok || !issuesRes.ok) {
                     throw new Error('Erreur lors de la récupération des données analytiques.');
                 }
 
                 const statsData = await statsRes.json();
                 const issuesData = await issuesRes.json();
-                const summaryData = await summaryRes.json();
-
                 setStats(statsData);
                 setRecurringIssues(issuesData);
-                setSummary(summaryData.summary);
 
             } catch (err) {
                 setError(err.message);
@@ -47,7 +48,36 @@ const AnalyticsDashboard = () => {
         };
 
         fetchData();
-    }, []);
+        }, []);
+
+    const handleFetchSummary = async () => {
+        if (!ticketId) {
+            setSummaryError('Veuillez entrer un ID de ticket.');
+            return;
+        }
+        setIsLoadingSummary(true);
+        setSummaryError('');
+        setSummary('');
+        try {
+            const token = localStorage.getItem('authToken');
+            const apiBaseUrl = 'http://localhost:8000/api/analytics';
+            const response = await fetch(`${apiBaseUrl}/ticket-summary/${ticketId}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.detail || 'Erreur lors de la récupération du résumé.');
+            }
+            const data = await response.json();
+            setSummary(data.summary);
+        } catch (error) {
+            setSummaryError(error.message);
+        } finally {
+            setIsLoadingSummary(false);
+        }
+    };
 
     if (loading) {
         return <div className="analytics-dashboard"><p>Chargement des analyses...</p></div>;
@@ -64,14 +94,34 @@ const AnalyticsDashboard = () => {
             </div>
 
             <div className="analytics-grid">
-                {/* Résumé Intelligent */}
-                <div className="analytics-card summary-card">
+
+                {/* Résumé Intelligent de Ticket */}
+                <div className="analytics-card summary-card full-width">
                     <div className="card-header">
                         <FaLightbulb className="card-icon" />
-                        <h3>Résumé Intelligent (Ticket #785)</h3>
+                        <h3>Résumé Intelligent de Ticket</h3>
                     </div>
-                    <p>{summary}</p>
+                    <div className="summary-controls">
+                        <input
+                            type="number"
+                            value={ticketId}
+                            onChange={(e) => setTicketId(e.target.value)}
+                            placeholder="Entrez l'ID du ticket"
+                            className="summary-input"
+                        />
+                        <button onClick={handleFetchSummary} disabled={isLoadingSummary} className="summary-button">
+                            {isLoadingSummary ? 'Génération...' : 'Générer le Résumé'}
+                        </button>
+                    </div>
+                    {summaryError && <p className="error-message" style={{ marginTop: '10px' }}>{summaryError}</p>}
+                    {summary && (
+                        <div className="summary-result">
+                            <h4>Résumé du ticket {ticketId}:</h4>
+                            <p>{summary}</p>
+                        </div>
+                    )}
                 </div>
+
 
                 {/* Problèmes Récurrents */}
                 <div className="analytics-card issues-card">

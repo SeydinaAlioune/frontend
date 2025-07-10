@@ -14,7 +14,7 @@ const MiddlewareConfig = () => {
     useEffect(() => {
         const fetchConfig = async () => {
             try {
-                const token = localStorage.getItem('token');
+                const token = localStorage.getItem('authToken');
                 const response = await fetch('http://localhost:8000/config/middleware', {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
@@ -41,7 +41,7 @@ const MiddlewareConfig = () => {
         setSuccess('');
         setLoading(true);
         try {
-            const token = localStorage.getItem('token');
+            const token = localStorage.getItem('authToken');
             const response = await fetch('http://localhost:8000/config/middleware', {
                 method: 'POST',
                 headers: {

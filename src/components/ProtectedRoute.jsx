@@ -6,18 +6,18 @@ const decodeToken = (token) => {
         const payload = JSON.parse(atob(token.split('.')[1]));
         // Check if the token is expired
         if (payload.exp * 1000 < Date.now()) {
-            localStorage.removeItem('token');
+            localStorage.removeItem('authToken');
             return null;
         }
         return payload;
     } catch (e) {
-        localStorage.removeItem('token');
+        localStorage.removeItem('authToken');
         return null;
     }
 };
 
 const ProtectedRoute = ({ allowedRoles }) => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('authToken');
 
     if (!token) {
         // User not authenticated

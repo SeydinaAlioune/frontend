@@ -29,7 +29,7 @@ const LoginPage = () => {
       });
 
       const { access_token } = response.data;
-      localStorage.setItem('token', access_token);
+      localStorage.setItem('authToken', access_token);
 
       // Decode token to get user role
       const decodedToken = jwtDecode(access_token);
@@ -53,7 +53,7 @@ const LoginPage = () => {
         default:
           // Fallback for unknown roles or if role is not in token
           setError('Rôle non reconnu. Impossible de vous connecter.');
-          localStorage.removeItem('token'); // Clear invalid token
+          localStorage.removeItem('authToken'); // Clear invalid token
           break;
       }
 

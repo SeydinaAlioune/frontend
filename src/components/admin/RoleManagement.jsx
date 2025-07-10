@@ -29,7 +29,7 @@ const RoleManagement = () => {
 
     const fetchUsers = async () => {
         try {
-            const token = localStorage.getItem('token');
+            const token = localStorage.getItem('authToken');
             const response = await fetch('http://localhost:8000/admin/users', {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
@@ -52,7 +52,7 @@ const RoleManagement = () => {
     const handleDelete = async (userId) => {
         if (window.confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?')) {
             try {
-                const token = localStorage.getItem('token');
+                const token = localStorage.getItem('authToken');
                 const response = await fetch(`http://localhost:8000/admin/users/${userId}`, {
                     method: 'DELETE',
                     headers: { 'Authorization': `Bearer ${token}` }
@@ -75,7 +75,7 @@ const RoleManagement = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem('authToken');
         const method = editingUser ? 'PUT' : 'POST';
         const url = editingUser 
             ? `http://localhost:8000/admin/users/${editingUser.id}` 

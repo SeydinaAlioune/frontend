@@ -14,7 +14,7 @@ const KnowledgeBase = () => {
 
     const fetchDocuments = useCallback(async () => {
         try {
-            const token = localStorage.getItem('token');
+            const token = localStorage.getItem('authToken');
             const response = await fetch('http://localhost:8000/kb/documents', {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
@@ -45,7 +45,7 @@ const KnowledgeBase = () => {
         setLoading(true);
 
         try {
-            const token = localStorage.getItem('token');
+            const token = localStorage.getItem('authToken');
             const response = await fetch('http://localhost:8000/kb/upload', {
                 method: 'POST',
                 headers: { 'Authorization': `Bearer ${token}` },
@@ -76,7 +76,7 @@ const KnowledgeBase = () => {
         setLoading(true);
 
         try {
-            const token = localStorage.getItem('token');
+            const token = localStorage.getItem('authToken');
             const response = await fetch(`http://localhost:8000/kb/documents/${docId}`, {
                 method: 'DELETE',
                 headers: { 'Authorization': `Bearer ${token}` },

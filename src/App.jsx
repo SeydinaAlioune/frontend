@@ -37,7 +37,7 @@ function App() {
         {/* Protected Agent Routes */}
         <Route element={<ProtectedRoute allowedRoles={['agent_support', 'agent_interne']} />}>
           <Route path="/agent/dashboard" element={<AgentLayout />}>
-            <Route index element={<ChatInterface />} />
+            <Route index element={<ChatPage />} />
             <Route path="analytics" element={<AnalyticsDashboard />} />
           </Route>
         </Route>

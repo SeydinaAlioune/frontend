@@ -17,7 +17,7 @@ const GlpiConfig = () => {
     useEffect(() => {
         const fetchConfig = async () => {
             try {
-                const token = localStorage.getItem('token');
+                const token = localStorage.getItem('authToken');
                 const response = await fetch('http://localhost:8000/config/glpi', {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
@@ -47,7 +47,7 @@ const GlpiConfig = () => {
         setLoading(true);
 
         try {
-            const token = localStorage.getItem('token');
+            const token = localStorage.getItem('authToken');
             const response = await fetch('http://localhost:8000/config/glpi', {
                 method: 'POST',
                 headers: {

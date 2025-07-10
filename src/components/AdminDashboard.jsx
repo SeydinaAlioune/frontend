@@ -65,55 +65,6 @@ const AdminDashboard = () => {
           <a href="#"><FaUserPlus /> Créer un utilisateur</a>
         </nav>
         <div className="admin-sidebar-footer">
-          <p>Crédit Mutuel</p>
-        </div>
-      </aside>
-      <main className="admin-main-content">
-        <header className="admin-header">
-          <h1>Gestion des utilisateurs</h1>
-          {error && <p className="error-message-admin">{error}</p>}
-          <button className="add-user-btn"><FaUserPlus /> Ajouter un utilisateur</button>
-        </header>
-        <div className="user-table-container">
-          <table className="user-table">
-            <thead>
-              <tr>
-                <th>Nom</th>
-                <th>Email</th>
-                <th>Rôle</th>
-                <th>Statut</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {users.map(user => (
-                <tr key={user.email}>
-                  <td>{user.name}</td>
-                  <td>{user.email}</td>
-                  <td><span className={`role-badge role-${user.role.replace(' ', '-')}`}>{user.role}</span></td>
-                  <td><span className={`status-badge status-${user.status}`}>{user.status}</span></td>
-                  <td className="action-buttons">
-                    {user.status === 'pending' && 
-                      <button onClick={() => handleValidateUser(user.email)} className="action-btn validate" title="Valider l'utilisateur">
-                        <FaUserCheck />
-                      </button>}
-                    {user.status === 'active' && 
-                      <button onClick={() => handleUpdateStatus(user.email, 'blocked')} className="action-btn block" title="Bloquer l'utilisateur">
-                        <FaUserSlash />
-                      </button>}
-                     {user.status === 'blocked' && 
-                      <button onClick={() => handleUpdateStatus(user.email, 'active')} className="action-btn unblock" title="Débloquer l'utilisateur">
-                        <FaUserCheck />
-                      </button>}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </main>
-    </div>
-  );
 };
 
 export default AdminDashboard;

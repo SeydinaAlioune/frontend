@@ -1,0 +1,89 @@
+.welcome-container {
+    padding: 20px;
+    text-align: center;
+}
+
+.welcome-title {
+    font-size: 2.5rem;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.welcome-subtitle {
+    font-size: 1.2rem;
+    color: #666;
+    margin-bottom: 40px;
+}
+
+.welcome-card {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 30px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+.welcome-card h2 {
+    font-size: 1.5rem;
+    color: #e4002b;
+    margin-bottom: 15px;
+}
+
+.welcome-card p {
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+.admin-dashboard-home {
+    padding: 10px;
+}
+
+.dashboard-title {
+    font-size: 2rem;
+    color: #ffffff;
+    margin-bottom: 30px;
+    font-weight: 600;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Grille fixe de 2 colonnes */
+    gap: 20px; /* Espacement réduit */
+}
+
+.feature-card {
+    background-color: #2d3748; /* Fond des cartes plus sombre */
+    border-radius: 8px;
+    padding: 20px; /* Padding réduit */
+    text-decoration: none;
+    color: #cbd5e0; /* Texte plus clair */
+    transition: transform 0.2s ease, background-color 0.2s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.feature-card:hover {
+    transform: translateY(-3px);
+    background-color: #4a5568; /* Couleur au survol */
+}
+
+.feature-card-icon {
+    font-size: 2.5rem;
+    color: #e4002b;
+    margin-bottom: 20px;
+}
+
+.feature-card-content h3 {
+    font-size: 1.2rem; /* Taille de titre réduite */
+    color: #ffffff;
+    margin-bottom: 10px;
+}
+
+.feature-card-content p {
+    font-size: 0.9rem; /* Taille de texte réduite */
+    color: #a0aec0;
+    line-height: 1.5;
+    flex-grow: 1;
+}

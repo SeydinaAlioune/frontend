@@ -55,15 +55,54 @@
 
 .admin-sidebar-footer {
   padding: 20px;
-  text-align: center;
-  font-size: 0.9em;
-  border-top: 1px solid #495057;
+  border-top: 1px solid #1a2c41;
+}
+
+.logout-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 12px;
+  background-color: #d9534f; /* Red color */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.2s;
+}
+
+.logout-button:hover {
+  background-color: #c9302c;
+}
+
+.logout-button svg {
+  margin-right: 10px;
+}
+
+/* Collapsed Sidebar */
+.sidebar-collapsed .sidebar {
+  width: 80px;
+}
+
+.sidebar-collapsed .sidebar-nav .nav-item span,
+.sidebar-collapsed .sidebar-footer .logout-button span {
+  display: none;
+}
+
+.sidebar-collapsed .sidebar-nav .nav-item,
+.sidebar-collapsed .sidebar-footer .logout-button {
+  justify-content: center;
+}
+
+.sidebar-collapsed .sidebar-nav .nav-item svg,
+.sidebar-collapsed .sidebar-footer .logout-button svg {
+  margin-right: 0;
 }
 
 /* Main Content */
-.admin-main-content {
-  flex-grow: 1;
-  display: flex;
+.main-content {
   flex-direction: column;
   padding: 20px;
 }

@@ -202,6 +202,22 @@
   transition: border-color 0.3s, box-shadow 0.3s;
 }
 
+.message-prefix {
+  display: block;
+  font-size: 0.8em;
+  color: #555;
+  margin-bottom: 4px;
+  font-weight: bold;
+}
+
+.user-message .message-prefix {
+  color: #e1e1e1;
+}
+
+.bot-message .message-prefix {
+  color: #6c757d;
+}
+
 .ticket-card.active {
   border-left: 4px solid #c8102e;
   box-shadow: 0 4px 15px rgba(0,0,0,0.05);

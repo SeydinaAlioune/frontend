@@ -8,6 +8,7 @@ const ChatPage = () => {
   const navigate = useNavigate();
   const [isUserMenuOpen, setUserMenuOpen] = useState(false);
   const [userName, setUserName] = useState('');
+  const [userRole, setUserRole] = useState(null);
   const [inputValue, setInputValue] = useState(''); // Ajout pour la barre de chat
   const [tickets, setTickets] = useState([]);
   const [loadingTickets, setLoadingTickets] = useState(true);
@@ -21,6 +22,7 @@ const ChatPage = () => {
       try {
         const decodedToken = jwtDecode(token);
         setUserName(decodedToken.name || 'Utilisateur');
+        setUserRole(decodedToken.role);
       } catch (error) {
         console.error("Failed to decode token", error);
         setUserName('Utilisateur');
@@ -86,8 +88,8 @@ const ChatPage = () => {
       const conversation = [
         { sender: 'user', text: originalContent },
         ...followups.map(f => ({
-          sender: f.users_id === 0 ? 'user' : 'bot', // 0 = demandeur, autre = agent
-          text: f.content.replace(/<[^>]*>/g, '') // Nettoie le HTML
+          sender: f.author_role === 'client' ? 'user' : 'bot',
+          text: f.content
         }))
       ];
 
@@ -158,11 +160,34 @@ const ChatPage = () => {
       <div className="chat-main-content">
         <div className="chat-area">
           <div className="chat-messages">
-            {messages.map((msg, index) => (
-              <div key={index} className={`message ${msg.sender === 'user' ? 'user-message' : 'bot-message'}`}>
-                <p>{msg.text}</p>
-              </div>
-            ))}
+            {messages.map((msg, index) => {
+              let prefix = null;
+              const isAgentViewing = userRole === 'agent_support' || userRole === 'agent_interne' || userRole === 'admin';
+
+              // Le premier message est la description originale du ticket, pas de préfixe.
+              if (index > 0) {
+                if (isAgentViewing) {
+                  if (msg.sender === 'user') {
+                    prefix = <strong className="message-prefix">Le client a écrit :</strong>;
+                  } else {
+                    prefix = <strong className="message-prefix">Un agent a répondu :</strong>;
+                  }
+                } else { // Le client regarde
+                  if (msg.sender === 'user') {
+                    prefix = <strong className="message-prefix">Vous avez écrit :</strong>;
+                  } else {
+                    prefix = <strong className="message-prefix">Le support vous a répondu :</strong>;
+                  }
+                }
+              }
+
+              return (
+                <div key={index} className={`message ${msg.sender === 'user' ? 'user-message' : 'bot-message'}`}>
+                  {prefix}
+                  <p dangerouslySetInnerHTML={{ __html: msg.text }} />
+                </div>
+              );
+            })}
           </div>
           {/* NOUVELLE BARRE DE CHAT INTÉGRÉE */}
           <div className="chat-input-area">

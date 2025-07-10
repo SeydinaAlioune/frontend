@@ -17,7 +17,8 @@ import ChatInterface from './components/ChatInterface'; // Re-added for agent ro
 import AnalyticsDashboard from './components/AnalyticsDashboard';
 
 // Admin Components
-import AdminDashboard from './components/admin/AdminDashboard';
+import AdminLayout from './components/admin/AdminLayout';
+import AdminWelcome from './components/admin/AdminWelcome';
 import RoleManagement from './components/admin/RoleManagement';
 import GlpiConfig from './components/admin/GlpiConfig';
 import KnowledgeBase from './components/admin/KnowledgeBase';
@@ -42,13 +43,15 @@ function App() {
           </Route>
         </Route>
 
-        {/* Protected Admin Routes */}
+        {/* Protected Admin Routes with Layout */}
         <Route element={<ProtectedRoute allowedRoles={['admin']} />}>
-          <Route path="/admin/dashboard" element={<AdminDashboard />} />
-          <Route path="/admin/dashboard/roles" element={<RoleManagement />} />
-          <Route path="/admin/dashboard/glpi" element={<GlpiConfig />} />
-          <Route path="/admin/dashboard/knowledge" element={<KnowledgeBase />} />
-          <Route path="/admin/dashboard/middleware" element={<MiddlewareConfig />} />
+          <Route path="/admin/dashboard" element={<AdminLayout />}>
+            <Route index element={<AdminWelcome />} />
+            <Route path="roles" element={<RoleManagement />} />
+            <Route path="glpi" element={<GlpiConfig />} />
+            <Route path="knowledge" element={<KnowledgeBase />} />
+            <Route path="middleware" element={<MiddlewareConfig />} />
+          </Route>
         </Route>
 
         {/* Protected Client Routes */}
